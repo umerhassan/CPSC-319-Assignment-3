@@ -1,5 +1,5 @@
 package cpsc;
-
+//This is same as BST so I will only comment on insert function in BinaryTree
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,14 +14,9 @@ import cpsc.Node;
 * @version 1.0
 * @since Feb 13, 2018
  */
-public class cpsc {	
-	/**
-	 * This is the main function required to run the file.
-	 * @param args arguments passed from Eclipse. 
-	 * @throws IOException
-	 */
+public class cpsc {
+
 	public static void main(String[] args) throws IOException {
-		
 		try {
 		String inputfile = args[0]+".txt";
 		String outputfile = args[1]+".txt";
@@ -32,15 +27,16 @@ public class cpsc {
 		FileInputStream textFile1 = new FileInputStream(inputfile);
 		Scanner scan = new Scanner(textFile1);
 		BinaryTree bst = new BinaryTree();
-		
 		//reading input files and storing
 		while(scan.hasNextLine()){
-			
-		String s = scan.nextLine();
+			String s = scan.nextLine();
+			//System.out.println(s);
 		char code=s.charAt(0);
 		int id = Integer.parseInt(s.substring(1, 8));
 			String nah=s.substring(8,8+25);
 			String name= nah.trim();
+
+			
 			String department=s.substring(33,37);
 			String program=s.substring(37,40);
 			char year=s.charAt(41);
@@ -53,24 +49,21 @@ public class cpsc {
 			stu.program=program;
 			stu.year=year;
 			if(code=='I')
-				bst.insert(stu);
-			else if(code=='D')
-				bst.deleteKey(stu);
+				bst.root=bst.insert(bst.getRoot(),stu);
 			else
-				System.out.println("Wrong code detected in input file. Should be I or D");
-			//System.out.println("Code: " + code + " ID: " + stu.id + " Name: " + stu.name+ " Dep: " + stu.department + " Program: " + stu.program + " Year: "+ stu.year);
+				System.out.println("Wrong code detected. Should be I");
 		}
-		 //Just changing the Stream so it will print to a file instead of console.
+		
 		 PrintStream printStream = new PrintStream(new FileOutputStream(outputfile));
 		 System.setOut(printStream);
 		 System.out.println("\nInorder traversal of binary tree is ");
 		 System.out.println(String.format("%-10s  %-7s  %-4s  %-4s %-4s ","Name","  ID","Department","Program","Year"));
-		 bst.printInorder(outputfile);
+		 bst.inOrder(bst.getRoot());
 		 PrintStream printStream2 = new PrintStream(new FileOutputStream(outputfile2));
 		 System.setOut(printStream2);
-		 System.out.println("\nBreadthFirst traversal of binary tree is ");
+		 System.out.println("\nDepthFirst traversal of binary tree is ");
 		 System.out.println(String.format("%-10s  %-7s  %-4s  %-4s %-4s ","Name","  ID","Department","Program","Year"));
-		 bst.printLevelOrder(outputfile2);
+		 bst.printLevelOrder();
 		 
 		} catch (FileNotFoundException e) {
 			System.out.println("usage");
@@ -78,5 +71,7 @@ public class cpsc {
 			System.exit(1);
 		}
 	
-	}
+	
+		
+}
 }
